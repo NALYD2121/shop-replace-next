@@ -1,0 +1,5 @@
+{
+  "buildCommand": "cd \"NEW SITE\" && npm install && npm run build",
+  "outputDirectory": "NEW SITE/.next",
+  "rootDirectory": "NEW SITE"
+} 

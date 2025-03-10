@@ -1,0 +1,414 @@
+/* Variables du thème avec effets néon */
+:root {
+    --primary: #00f7ff;
+    --primary-hover: #0ae7ff;
+    --primary-light: rgba(0, 247, 255, 0.05);
+    --primary-glow: rgba(0, 247, 255, 0.15);
+    --neon-shadow: 0 0 5px rgba(0, 247, 255, 0.3),
+                   0 0 10px rgba(0, 247, 255, 0.2),
+                   0 0 15px rgba(0, 247, 255, 0.1);
+    --neon-text-shadow: 0 0 3px rgba(0, 247, 255, 0.5),
+                        0 0 5px rgba(0, 247, 255, 0.3),
+                        0 0 8px rgba(0, 247, 255, 0.2);
+    --bg-color: #0a1929;
+    --text-color: #ffffff;
+    --nav-bg: rgba(10, 25, 41, 0.8);
+    --card-bg: rgba(0, 247, 255, 0.02);
+    --card-hover: rgba(0, 247, 255, 0.05);
+    --shadow-sm: 0 2px 4px rgba(0, 247, 255, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 247, 255, 0.08);
+    --shadow-lg: 0 8px 15px rgba(0, 247, 255, 0.1);
+    --gradient-primary: linear-gradient(135deg, rgba(0, 247, 255, 0.8), rgba(10, 231, 255, 0.6));
+    --gradient-neon: linear-gradient(135deg, rgba(0, 247, 255, 0.3), rgba(10, 231, 255, 0.1));
+}
+
+/* Thème sombre */
+[data-theme="dark"] {
+    --bg-color: #0a1929;
+    --text-color: #ffffff;
+    --nav-bg: rgba(0, 247, 255, 0.05);
+    --card-bg: rgba(0, 247, 255, 0.05);
+    --card-hover: rgba(0, 247, 255, 0.1);
+}
+
+/* Styles de base */
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+    padding: 1rem 0;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    background: linear-gradient(to right, #fff, var(--primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: var(--neon-text-shadow);
+    animation: neonBlink 2s ease-in-out infinite alternate;
+}
+
+/* Bouton de thème */
+.theme-toggle {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    text-shadow: var(--neon-text-shadow);
+}
+
+.theme-toggle:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+    transform: rotate(180deg);
+}
+
+/* Formulaire */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--primary);
+    text-shadow: var(--neon-text-shadow);
+}
+
+input[type="text"],
+input[type="url"],
+select,
+textarea {
+    width: 100%;
+    padding: 0.8rem;
+    background: var(--card-bg);
+    border: 2px solid var(--primary-light);
+    border-radius: 8px;
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="url"]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: var(--neon-shadow);
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* Boutons de catégorie */
+.category-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.category-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.2rem;
+    background: var(--card-bg);
+    border: 2px solid var(--primary-light);
+    border-radius: 12px;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-shadow: var(--neon-text-shadow);
+}
+
+.category-btn i {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.category-btn:hover,
+.category-btn.active {
+    background: var(--primary-light);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: var(--neon-shadow);
+}
+
+/* Zone d'upload */
+.upload-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.upload-option {
+    padding: 0.8rem;
+    text-align: center;
+    background: var(--card-bg);
+    border: 2px solid var(--primary-light);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.upload-option.active {
+    background: var(--primary-light);
+    border-color: var(--primary);
+    box-shadow: var(--neon-shadow);
+}
+
+.file-upload-zone {
+    position: relative;
+    min-height: 160px;
+    padding: 2rem;
+    border: 2px dashed var(--primary-light);
+    border-radius: 12px;
+    background: var(--card-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.file-upload-zone:hover {
+    border-color: var(--primary);
+    background: var(--primary-light);
+    box-shadow: var(--neon-shadow);
+}
+
+.file-upload-zone input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.upload-icon {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    text-shadow: var(--neon-text-shadow);
+}
+
+/* Prévisualisation des images */
+.grid-preview {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.preview-item {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid var(--primary);
+    box-shadow: var(--neon-shadow);
+}
+
+.preview-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.delete-preview {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(0, 0, 0, 0.7);
+    border: none;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.delete-preview:hover {
+    background: #ff4040;
+    transform: scale(1.1);
+}
+
+/* Bouton de soumission */
+.submit-button {
+    width: 100%;
+    padding: 1rem;
+    background: var(--gradient-primary);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: var(--neon-shadow);
+}
+
+.submit-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--neon-shadow);
+}
+
+/* Animations */
+@keyframes neonBlink {
+    0%, 100% {
+        opacity: 0.9;
+        text-shadow: var(--neon-text-shadow);
+    }
+    50% {
+        opacity: 0.7;
+        text-shadow: var(--neon-text-shadow);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    .category-buttons {
+        grid-template-columns: 1fr;
+    }
+
+    .upload-options {
+        grid-template-columns: 1fr;
+    }
+}
+
+select,
+select option {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border: 2px solid var(--primary-light);
+    border-radius: 8px;
+    padding: 0.8rem;
+    width: 100%;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: var(--neon-shadow);
+}
+
+select option {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding: 12px;
+}
+
+select option:hover,
+select option:focus,
+select option:active,
+select option:checked {
+    background-color: var(--primary-light);
+}
+
+/* Style pour le bouton d'ajout d'image */
+.image-upload-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: var(--gradient-primary);
+    color: var(--text-color);
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--neon-shadow);
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.image-upload-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px var(--primary),
+                0 0 25px var(--primary-glow);
+}
+
+.image-upload-btn:active {
+    transform: translateY(0);
+}
+
+.image-upload-btn i {
+    font-size: 1.1rem;
+}
+
+.url-input-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.url-input-container input[type="url"] {
+    flex: 1;
+}
+
+.url-input-container .validation-message {
+    color: var(--primary);
+    font-size: 0.85rem;
+    margin-left: 8px;
+} 

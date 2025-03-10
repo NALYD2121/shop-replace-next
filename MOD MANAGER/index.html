@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTA V - Gestionnaire de Mods</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="config.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Gestionnaire de Mods GTA V</h1>
+            <button class="theme-toggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </header>
+
+        <main>
+            <form id="publishForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="name">Nom du mod</label>
+                    <input type="text" id="name" name="name" required minlength="3" maxlength="100" placeholder="Entrez le nom du mod">
+                    <small class="form-text">Entre 3 et 100 caractères</small>
+                </div>
+                
+                <div class="form-group">
+                    <label>Catégorie</label>
+                    <div class="category-buttons">
+                        <button type="button" class="category-btn" data-category="WEAPONS">
+                            <i class="fas fa-gun"></i>
+                            Armes
+                        </button>
+                        <button type="button" class="category-btn" data-category="VEHICLES">
+                            <i class="fas fa-car"></i>
+                            Véhicules
+                        </button>
+                        <button type="button" class="category-btn" data-category="PEDS">
+                            <i class="fas fa-user"></i>
+                            Personnages
+                        </button>
+                    </div>
+                    <input type="hidden" id="category" name="category" required>
+                </div>
+
+                <div class="form-group type-group" style="display: none;">
+                    <label for="type">Type</label>
+                    <select id="type" name="type" required>
+                        <option value="">Sélectionnez un type</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" required maxlength="2000" placeholder="Décrivez votre mod..."></textarea>
+                    <small class="form-text">Maximum 2000 caractères</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Image du mod</label>
+                    <div class="upload-options">
+                        <div class="upload-option active" data-mode="file">
+                            <i class="fas fa-upload"></i>
+                            <span>Fichier local</span>
+                        </div>
+                        <div class="upload-option" data-mode="url">
+                            <i class="fas fa-link"></i>
+                            <span>Lien Discord</span>
+                        </div>
+                    </div>
+                    <div id="fileUpload" class="file-upload-zone">
+                        <input type="file" id="media" name="media" accept="image/*" multiple>
+                        <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                        <div class="upload-text">
+                            <h3>Glissez et déposez vos images ici</h3>
+                            <p>ou cliquez pour sélectionner jusqu'à 5 images</p>
+                            <small>Formats acceptés : JPG, PNG, GIF (Max 5MB par image)</small>
+                        </div>
+                    </div>
+                    <div id="urlUpload" class="url-upload-zone" style="display: none;">
+                        <div class="url-input-container">
+                            <input type="url" id="mediaUrl" name="mediaUrl" placeholder="Collez le lien Discord de l'image (https://cdn.discordapp.com/...)" pattern="https://cdn\.discordapp\.com/.*">
+                            <button type="button" class="image-upload-btn">
+                                <i class="fas fa-plus"></i>
+                                Ajouter
+                            </button>
+                        </div>
+                        <small class="form-text">Le lien doit commencer par https://cdn.discordapp.com/</small>
+                    </div>
+                    <div class="media-preview grid-preview"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="mediaFireLink">Lien MediaFire</label>
+                    <input type="url" id="mediaFireLink" name="mediaFireLink" required pattern=".*mediafire\.com.*" placeholder="Lien de téléchargement MediaFire">
+                    <small class="form-text">Le lien doit provenir de MediaFire</small>
+                </div>
+
+                <button type="submit" class="submit-button">
+                    <i class="fas fa-cloud-upload-alt"></i> PUBLIER SUR DISCORD
+                </button>
+            </form>
+        </main>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html> 
