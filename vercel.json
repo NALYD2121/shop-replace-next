@@ -1,6 +1,6 @@
 {
-  "buildCommand": "cd \"NEW SITE\" && npm install",
-  "outputDirectory": "NEW SITE",
+  "buildCommand": "cd NEW-SITE && npm install",
+  "outputDirectory": "NEW-SITE",
   "rewrites": [
     {
       "source": "/(.*)",
