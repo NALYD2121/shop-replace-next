@@ -1,11 +1,4 @@
 {
   "buildCommand": "cd \"NEW SITE\" && npm install && npm run build",
-  "outputDirectory": "NEW SITE/.next",
-  "framework": "nextjs",
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ]
+  "outputDirectory": "NEW SITE/.next"
 } 
