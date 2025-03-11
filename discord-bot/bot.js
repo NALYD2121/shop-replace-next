@@ -26,11 +26,13 @@ process.on('unhandledRejection', error => {
 // Configuration du serveur Express
 const app = express();
 
-// Configuration CORS
+// Configuration CORS avec options plus permissives
 app.use(cors({
     origin: '*',
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type']
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+    optionsSuccessStatus: 200
 }));
 
 // Configuration de Multer
@@ -99,6 +101,11 @@ async function sendBumpReminder(channelId) {
 
 // Middleware pour parser le JSON
 app.use(express.json());
+
+// Route racine
+app.get('/', (req, res) => {
+    res.send('Bot en ligne !');
+});
 
 // Route pour publier un mod
 app.post('/api/publish', upload.array('media', 5), async (req, res) => {
@@ -200,9 +207,23 @@ client.once('ready', async () => {
         console.log('Commandes slash enregistrées avec succès');
 
         // Démarrage du serveur Express une fois le bot connecté
-        const PORT = process.env.PORT || 3000;
-        app.listen(PORT, () => {
-            console.log(`Serveur API démarré sur le port ${PORT}`);
+        const PORT = process.env.PORT || 8080;
+        const server = app.listen(PORT, '0.0.0.0', () => {
+            console.log(`Serveur web démarré pour maintenir le bot en ligne sur le port ${PORT}`);
+        });
+
+        // Gestion des erreurs du serveur
+        server.on('error', (error) => {
+            if (error.code === 'EADDRINUSE') {
+                console.error(`Le port ${PORT} est déjà utilisé. Tentative avec un autre port...`);
+                // Attendre 1 seconde et réessayer avec le port suivant
+                setTimeout(() => {
+                    server.close();
+                    server.listen(PORT + 1, '0.0.0.0');
+                }, 1000);
+            } else {
+                console.error('Erreur du serveur:', error);
+            }
         });
     } catch (error) {
         console.error('Erreur lors de l\'initialisation:', error);
@@ -258,8 +279,10 @@ app.get('/api/mods/:category', async (req, res) => {
         const category = req.params.category.toUpperCase();
         const type = req.query.type;
         
+        console.log(`Requête reçue pour la catégorie: ${category}, type: ${type}`);
+        
         if (!CHANNEL_IDS[category]) {
-            return res.status(404).json({ error: 'Catégorie non trouvée' });
+            return res.status(404).json({ success: false, error: 'Catégorie non trouvée' });
         }
 
         let channelIds = type && CHANNEL_IDS[category][type] 
@@ -270,15 +293,23 @@ app.get('/api/mods/:category', async (req, res) => {
         
         for (const channelId of channelIds) {
             try {
+                console.log(`Récupération des messages du canal: ${channelId}`);
                 const channel = await client.channels.fetch(channelId);
-                if (!channel) continue;
+                if (!channel) {
+                    console.log(`Canal non trouvé: ${channelId}`);
+                    continue;
+                }
 
                 const messages = await channel.messages.fetch({ limit: 50 });
+                console.log(`${messages.size} messages trouvés dans le canal ${channelId}`);
                 
                 messages.forEach(message => {
                     if (message.embeds.length > 0) {
                         const mod = extractModInfo(message);
-                        if (mod) mods.push(mod);
+                        if (mod) {
+                            console.log(`Mod trouvé: ${mod.name}`);
+                            mods.push(mod);
+                        }
                     }
                 });
             } catch (error) {
@@ -286,10 +317,11 @@ app.get('/api/mods/:category', async (req, res) => {
             }
         }
 
+        console.log(`Total des mods trouvés: ${mods.length}`);
         res.json({ success: true, mods });
     } catch (error) {
         console.error('Erreur:', error);
-        res.status(500).json({ error: 'Erreur serveur' });
+        res.status(500).json({ success: false, error: 'Erreur serveur' });
     }
 });
 
@@ -478,7 +510,6 @@ app.get('/api/mods/:id', async (req, res) => {
 });
 
 // Connexion du bot Discord
-console.log('Tentative de connexion au bot Discord...');
 client.login(process.env.DISCORD_TOKEN).catch(error => {
     console.error('Erreur de connexion au bot Discord:', error);
 }); 
